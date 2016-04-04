@@ -1,0 +1,17 @@
+/bin/
+/target/
+/WebContent/
+/.apt_generated/
+
+.git
+
+**/Servers
+
+# eclipse project files
+**/.metadata
+**/.settings
+**/.project
+**/.classpath
+**/target
+**/.recommenders
+**/.factorypath
