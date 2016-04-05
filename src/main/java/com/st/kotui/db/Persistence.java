@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 
 import org.json.JSONObject;
 
@@ -102,6 +103,36 @@ public class Persistence {
 				jo.put("id", id);
 				jo.put("message", messge);
 			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			return jo;
+		}
+	}
+	public JSONObject addUser(String username) {
+		String query = SQL_Statements.addUser;
+		JSONObject jo = new JSONObject();
+		try {
+			long key = -1L;
+			Date now = new Date();
+			PreparedStatement prep = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			prep.toString();
+			prep.setString(1, username);
+			prep.setString(2, now.toString());
+
+			prep.executeUpdate();
+			ResultSet rs = prep.getGeneratedKeys();
+			if (rs != null && rs.next()) {
+				key = rs.getLong(1);
+			}
+			System.out.println(key);
+			long id = key;
+			String user = username;
+			String userdate = now.toString();
+			jo.put("id", id);
+			jo.put("username", user);
+			jo.put("date", userdate);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
