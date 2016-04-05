@@ -119,16 +119,14 @@ public class Persistence {
 			long key = -1L;
 			Date now = new Date();
 			PreparedStatement prep = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-			prep.toString();
+
 			prep.setString(1, username);
 			prep.setString(2, now.toString());
-
 			prep.executeUpdate();
 			ResultSet rs = prep.getGeneratedKeys();
 			if (rs != null && rs.next()) {
 				key = rs.getLong(1);
 			}
-			System.out.println(key);
 			long id = key;
 			String user = username;
 			String userdate = now.toString();
