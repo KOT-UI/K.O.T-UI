@@ -174,8 +174,36 @@ label {
 	          margin:100px auto ;
 	          background-color:#FFFCE5;
 	          padding:50px;
+	          text-align:center;
 	         }
-	         
-	 
-
+/* ---------------------------------......------------------------------------- */
+	
+	.card{
+			height:200px;
+			width:200px;
+			background-color:red;
+			margin-right:20px;
+			background-size:cover;
+			background-position:center center;
+			position:relative;
+			display: inline-block;
+	}
+	.card:last-child{
+	margin-right:0;
+	}
+	.scale{
+	height:300px;
+	width:150px;
+	position:relative;
+	margin-left:1000px;
+	background-color:#000000;
+	}
+	.scale div{
+		position:absolute;
+		left:0;
+		right:0;
+		height:150px;
+		
+	} 
+/* ---------------------------------......------------------------------------- */
 /*---------------------------- END CHOOSE PHOTOS -------------------------------- */
