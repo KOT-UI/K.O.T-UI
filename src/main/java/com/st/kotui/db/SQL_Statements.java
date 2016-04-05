@@ -13,6 +13,7 @@ public class SQL_Statements {
 	public static final String addResource = "INSERT INTO `kotui`.`testTable` (`message`) VALUES(?)";
 	public static final String getResource = "SELECT * FROM `kotui`.`testTable` WHERE idtestTable=?";
     public static final String getRndOp = "SELECT * FROM kotui.user WHERE (status = 1 AND username <> '?') ORDER BY rand() LIMIT 1";
+	public static final String getCards = "SELECT * FROM `kotui`.`picture` LIMIT ?";
 
 	public static String preparegetRndOp (String username){
 		String query = getRndOp.replaceFirst("\\?",String.valueOf(username));

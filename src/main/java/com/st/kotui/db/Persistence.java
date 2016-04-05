@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Persistence {
@@ -266,12 +267,41 @@ public class Persistence {
 				String user = rs.getString("username");
 				
 				jo.put("username", user);
+				
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally{
-		return jo;
+		} finally {
+			return jo;
+		}
+	}
+	
+	@SuppressWarnings("finally")
+	public JSONArray getCards(int count) {
+		String query = SQL_Statements.getCards;
+		JSONArray jo = new JSONArray();
+		try {
+
+			PreparedStatement prep = connection.prepareStatement(query);
+
+			prep.setInt(1, count);
+
+			ResultSet rs = prep.executeQuery();
+			if (rs != null) {
+				while (rs.next()) {
+					JSONObject row = new JSONObject();
+					row.put("id", rs.getString("id"));
+					//row.put("name", rs.getString("name"));
+					row.put("image", rs.getString("path"));
+					jo.put(row);
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			return jo;
 		}
 	}
 
