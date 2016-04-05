@@ -25,7 +25,6 @@ public class UserService {
 	}
 	
 	public JSONObject addUser(String username) {
-		System.out.println(username);
 		if (!isValidUsername(username)) {
 			JSONObject error = new JSONObject();
 			error.put("error", "Username is not valid.");
