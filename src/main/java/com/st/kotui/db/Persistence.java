@@ -140,5 +140,63 @@ public class Persistence {
 			return jo;
 		}
 	}
+	public JSONObject getUser(long id) {
+		String query = SQL_Statements.getUser;
+		JSONObject jo = new JSONObject();
+		try {
+
+			PreparedStatement prep = connection.prepareStatement(query);
+
+			prep.setInt(1, 2);
+
+			ResultSet rs = prep.executeQuery();
+			if (rs != null && rs.next()) {
+
+				long idUser = rs.getInt("id");
+				;
+				String user = rs.getString("username");
+				;
+				int status = rs.getInt("status");
+				;
+				jo.put("id", idUser);
+				jo.put("username", user);
+				jo.put("status", status);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			return jo;
+		}
+	}
+	/*
+	public JSONObject getUser(String username) {
+		String query = SQL_Statements.getResource;
+		JSONObject jo = new JSONObject();
+		try {
+
+			PreparedStatement prep = connection.prepareStatement(query);
+
+			prep.setInt(1, 2);
+
+			ResultSet rs = prep.executeQuery();
+			if (rs != null && rs.next()) {
+
+				long id = rs.getInt("idtestTable");
+				;
+				String messge = rs.getString("message");
+				;
+				jo.put("id", id);
+				jo.put("message", messge);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			return jo;
+		}
+	}
+	*/
+	
 
 }
