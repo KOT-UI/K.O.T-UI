@@ -1,7 +1,11 @@
 @CHARSET "UTF-8";
+/*------------------------------Нулиране---------------------------------------*/
 *{margin:0px;
   padding:0px;
 }
+/*---------------------------------END-----------------------------------------*/
+
+/*------------------------------ LOGIN ---------------------------------*/
 @font-face {font-family:my-font;
              font-style:normal;
              font-weight:normal;
@@ -46,6 +50,7 @@ body{background-color:#EAE2C9;
 	width:150px;
 	height:30px;	
 	background-color:#EAE2C9;
+
 }
 
 
@@ -53,12 +58,14 @@ footer div{
     background-color:#38393C;
     padding:50px;
 	bottom:0;
-<<<<<<< 8b145a2a79abe389b3577234e389044ea7b954cd
+	text-align:center;
+	color:white;
+	font-size:43px;	
 }
 
+/*------------------------------- END LOGIN --------------------------------------*/
 
-
-
+/*---------------------------------Loader--------------------------------------*/
 .cs-loader {
 	height:auto;
 	width:80%;
@@ -67,10 +74,10 @@ footer div{
 	padding:50px;
 	font-size:60px;
 	 
-
 }
 
 .cs-loader-inner {
+  margin-top:30px;
   transform: translateY(-50%);
   top: 50%;
   position: absolute;
@@ -78,7 +85,9 @@ footer div{
   color: #000000;
   padding: 0 100px;
   text-align: center;
+  position:relative;
 }
+.cs-loader-inner p { font-size:17px;}
 
 label {
 	font-size:20px;
@@ -155,9 +164,18 @@ label {
 .cs-loader-inner label:nth-child(1) {
   -webkit-animation: lol 3s 500ms infinite ease-in-out;
   animation: lol 3s 500ms infinite ease-in-out;
-=======
-	text-align:center;
-	color:white;
-	font-size:43px;	
->>>>>>> basicstyle
 }
+
+/*-------------------------------- END LOADER ------------------------------------*/
+
+/*-------------------------------CHOOSE PHOTOS -----------------------------------*/
+.Chose-photos{height:auto;
+	          width:80%;
+	          margin:100px auto ;
+	          background-color:#FFFCE5;
+	          padding:50px;
+	         }
+	         
+	 
+
+/*---------------------------- END CHOOSE PHOTOS -------------------------------- */
