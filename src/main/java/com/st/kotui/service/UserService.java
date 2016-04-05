@@ -57,5 +57,11 @@ public class UserService {
 		return jo;
 	}
 	
+	public JSONObject getOpponent(String username){
+		JSONObject jo= Persistence.get().getOpponent(username);
+		return jo;
+		
+	}
+	
 }
 //test drive

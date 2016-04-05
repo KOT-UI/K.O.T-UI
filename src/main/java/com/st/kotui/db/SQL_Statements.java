@@ -12,8 +12,13 @@ public class SQL_Statements {
 	public static final String updateUser = "UPDATE kotui.user SET status='?', lastActive='?' WHERE username = ?";
 	public static final String addResource = "INSERT INTO `kotui`.`testTable` (`message`) VALUES(?)";
 	public static final String getResource = "SELECT * FROM `kotui`.`testTable` WHERE idtestTable=?";
+    public static final String getRndOp = "SELECT * FROM kotui.user WHERE (status = 1 AND username <> '?') ORDER BY rand() LIMIT 1";
 
-
+	public static String preparegetRndOp (String username){
+		String query = getRndOp.replaceFirst("\\?",String.valueOf(username));
+		return query;
+	}
+	
 	public static String prepareResource (String message){
 		String query = addResource.replaceFirst("\\?",String.valueOf(message));
 		return query;

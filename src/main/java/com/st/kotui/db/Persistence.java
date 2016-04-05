@@ -251,5 +251,28 @@ public class Persistence {
 	}
 	//test drive
 	
+	@SuppressWarnings("finally")
+	public JSONObject getOpponent (String username)
+	{
+		String query = SQL_Statements.getRndOp;
+		JSONObject jo = new JSONObject();
+		try
+		{
+			PreparedStatement prep = connection.prepareStatement(query);
+			prep.setString(1, username);
+			ResultSet rs = prep.executeQuery();
+			if (rs != null && rs.next())
+			{
+				String user = rs.getString("username");
+				
+				jo.put("username", user);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+		return jo;
+		}
+	}
 
 }
