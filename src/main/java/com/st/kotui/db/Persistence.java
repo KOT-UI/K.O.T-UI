@@ -141,13 +141,13 @@ public class Persistence {
 		}
 	}
 	public JSONObject getUser(long id) {
-		String query = SQL_Statements.getUser;
+		String query = SQL_Statements.getUserById;
 		JSONObject jo = new JSONObject();
 		try {
 
 			PreparedStatement prep = connection.prepareStatement(query);
 
-			prep.setInt(1, 2);
+			prep.setLong(1, id);
 
 			ResultSet rs = prep.executeQuery();
 			if (rs != null && rs.next()) {
@@ -169,25 +169,27 @@ public class Persistence {
 			return jo;
 		}
 	}
-	/*
 	public JSONObject getUser(String username) {
-		String query = SQL_Statements.getResource;
+		String query = SQL_Statements.getUserByUsername;
 		JSONObject jo = new JSONObject();
 		try {
 
 			PreparedStatement prep = connection.prepareStatement(query);
 
-			prep.setInt(1, 2);
+			prep.setString(1, username);
 
 			ResultSet rs = prep.executeQuery();
 			if (rs != null && rs.next()) {
 
-				long id = rs.getInt("idtestTable");
+				long idUser = rs.getInt("id");
 				;
-				String messge = rs.getString("message");
+				String user = rs.getString("username");
 				;
-				jo.put("id", id);
-				jo.put("message", messge);
+				int status = rs.getInt("status");
+				;
+				jo.put("id", idUser);
+				jo.put("username", user);
+				jo.put("status", status);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -196,7 +198,36 @@ public class Persistence {
 			return jo;
 		}
 	}
-	*/
+	public JSONObject updateUser(String username, int status) {
+		String query = SQL_Statements.updateUser;
+		JSONObject jo = new JSONObject();
+		try {
+			Date now = new Date();
+			PreparedStatement prep = connection.prepareStatement(query);
+			prep.setInt(1, status);
+			prep.setString(2, now.toString());
+			prep.setString(3, username);
+
+			ResultSet rs = prep.executeQuery();
+			if (rs != null && rs.next()) {
+
+				long idUser = rs.getInt("id");
+				;
+				String user = rs.getString("username");
+				;
+				int userstatus = rs.getInt("status");
+				;
+				jo.put("id", idUser);
+				jo.put("username", user);
+				jo.put("status", userstatus);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			return jo;
+		}
+	}
 	
 
 }
