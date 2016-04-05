@@ -37,12 +37,14 @@ public class UserService {
 				JSONObject error = new JSONObject();
 				error.put("error", "User is already logged in.");
 				return error;
+			} else {
+				JSONObject updated = Persistence.get().updateUser(existing.getString("username"), 1);
+				return updated;
 			}
 		} else {
 			JSONObject created = Persistence.get().addUser(username);
 			return created;
 		}
-		return null;
 	}
 	
 	public JSONObject updateUser(String username, int state) {
