@@ -15,5 +15,9 @@ public class ResourceService {
 		JSONObject jo = Persistence.get().getResource();
 		return jo;
 	}
+	public JSONObject addUserResources(String username) {
+		JSONObject jo = Persistence.get().addUser(username);
+		return jo;
+	}
 
 }
