@@ -13,6 +13,8 @@ body{background-color:#EAE2C9;
     
     }
 
+
+
  .header-logo{ width:100%; 
               margin:0px auto 0px auto;
               height:160px;  
@@ -37,18 +39,21 @@ body{background-color:#EAE2C9;
 	 
 }
 
-
-
-
-.login input {margin-left:auto ; margin-right:auto;}
-button {
-	font-family:Comic Sans MS;
-	font-size:12px;
+.login div {margin:0px auto; text-align:center;}
+.login div p {margin-top:15px;}
+.login button {
+	font-size:15px;
+	width:150px;
+	height:30px;	
+	background-color:#EAE2C9;
 }
+
+
 footer div{
     background-color:#38393C;
     padding:50px;
 	bottom:0;
+<<<<<<< 8b145a2a79abe389b3577234e389044ea7b954cd
 }
 
 
@@ -150,4 +155,9 @@ label {
 .cs-loader-inner label:nth-child(1) {
   -webkit-animation: lol 3s 500ms infinite ease-in-out;
   animation: lol 3s 500ms infinite ease-in-out;
+=======
+	text-align:center;
+	color:white;
+	font-size:43px;	
+>>>>>>> basicstyle
 }
