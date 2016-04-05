@@ -6,7 +6,8 @@ public class SQL_Statements {
 	public static final String getAllImages = "SELECT * FROM kotui.cards";
 	public static final String getAllRndImages = "SELECT * FROM kotui.cards order by rand();";
 	public static final String addUser = "INSERT INTO kotui.user (`username`,`lastActive`) VALUES(?,?);";
-	public static final String getUser = "SELECT id,username,status FROM kotui.user Where id = ?";
+	public static final String getUserById = "SELECT id,username,status FROM kotui.user Where id = ?";
+	public static final String getUserByUsername = "SELECT id,username,status FROM kotui.user Where username = ?";
 	public static final String updateUser = "UPDATE kotui.user SET status='?', lastActive='?' WHERE id = ?";
 	public static final String addResource = "INSERT INTO `kotui`.`testTable` (`message`) VALUES(?)";
 	public static final String getResource = "SELECT * FROM `kotui`.`testTable` WHERE idtestTable=?";
@@ -17,8 +18,13 @@ public class SQL_Statements {
 		return query;
 	}
 	
-	public static String prepareUserSelectById (long id){
-		String query = getUser.replaceFirst("\\?",String.valueOf(id));
+	public static String prepareUserGet(long id){
+		String query = getUserById.replaceFirst("\\?",String.valueOf(id));
+		return query;
+	}
+	
+	public static String prepareUserGet(String id){
+		String query = getUserByUsername.replaceFirst("\\?",String.valueOf(id));
 		return query;
 	}
 	
