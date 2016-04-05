@@ -1,1 +1,52 @@
 @CHARSET "UTF-8";
+*{margin:0px;
+  padding:0px;
+}
+@font-face {font-family:my-font;
+             font-style:normal;
+             font-weight:normal;
+             src:url(../fonts/lobster_[allfont.net].ttf);
+            }
+ 
+
+body{background-color:#EAE2C9;
+    
+    }
+
+ .header-logo{ width:100%; 
+              margin:0px auto 0px auto;
+              height:160px;  
+    	      text-align:center;
+    	      font-size:100px;
+    	      line-height:160px;
+    	      font-style:italic;
+    	      color:white;
+    	      font-family: my-font; 
+    	      background-color:#39AEC3;
+              
+    	      
+    	     }
+
+.login {
+	height:auto;
+	width:80%;
+	margin:100px auto ;
+	background-color:#FFFCE5;
+	padding:50px;
+	font-size:15px;
+	 
+}
+
+
+
+
+.login input {margin-left:auto ; margin-right:auto;}
+button {
+	font-family:Comic Sans MS;
+	font-size:12px;
+}
+footer div{
+    background-color:#38393C;
+    padding:50px;
+	bottom:0;
+}
