@@ -15,13 +15,17 @@ public class UserService {
 	}
 	
 	public JSONObject getUser(long id) {
-		/*JSONObject jo = Persistence.get().getUser(id);
-		return jo;*/
-		return null;
+		JSONObject jo = Persistence.get().getUser(id);
+		return jo;
+	}
+	
+	public int getActiveUsers() {
+		int count = Persistence.get().getActiveUsersCount();
+		return count;
 	}
 	
 	public JSONObject addUser(String username) {
-		/*if (!isValidUsername(username)) {
+		if (!isValidUsername(username)) {
 			JSONObject error = new JSONObject();
 			error.put("error", "Username is not valid.");
 			return error;
@@ -37,14 +41,13 @@ public class UserService {
 		} else {
 			JSONObject created = Persistence.get().addUser(username);
 			return created;
-		}*/
+		}
 		return null;
 	}
 	
-	public JSONObject updateUser(long id) {
-		/*JSONObject jo = Persistence.get().updateUser(id);
-		return jo;*/
-		return null;
+	public JSONObject updateUser(String username, int state) {
+		JSONObject jo = Persistence.get().updateUser(username, state);
+		return jo;
 	}
 
 	public JSONObject getResources() {

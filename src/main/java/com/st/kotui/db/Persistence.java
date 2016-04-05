@@ -84,6 +84,7 @@ public class Persistence {
 		}
 	}
 
+	@SuppressWarnings("finally")
 	public JSONObject getResource() {
 		String query = SQL_Statements.getResource;
 		JSONObject jo = new JSONObject();
@@ -110,6 +111,7 @@ public class Persistence {
 			return jo;
 		}
 	}
+	@SuppressWarnings("finally")
 	public JSONObject addUser(String username) {
 		String query = SQL_Statements.addUser;
 		JSONObject jo = new JSONObject();
@@ -140,6 +142,7 @@ public class Persistence {
 			return jo;
 		}
 	}
+	@SuppressWarnings("finally")
 	public JSONObject getUser(long id) {
 		String query = SQL_Statements.getUserById;
 		JSONObject jo = new JSONObject();
@@ -169,6 +172,7 @@ public class Persistence {
 			return jo;
 		}
 	}
+	@SuppressWarnings("finally")
 	public JSONObject getUser(String username) {
 		String query = SQL_Statements.getUserByUsername;
 		JSONObject jo = new JSONObject();
@@ -198,6 +202,7 @@ public class Persistence {
 			return jo;
 		}
 	}
+	@SuppressWarnings("finally")
 	public JSONObject updateUser(String username, int status) {
 		String query = SQL_Statements.updateUser;
 		JSONObject jo = new JSONObject();
@@ -226,6 +231,25 @@ public class Persistence {
 			e.printStackTrace();
 		} finally {
 			return jo;
+		}
+	}
+	
+	@SuppressWarnings("finally")
+	public int getActiveUsersCount() {
+		String query = SQL_Statements.getActiveUsersCount;
+		int count = 0;
+		try {
+			PreparedStatement prep = connection.prepareStatement(query);
+
+			ResultSet rs = prep.executeQuery();
+			if (rs != null && rs.next()) {
+				count = rs.getInt(0);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			return count;
 		}
 	}
 	
