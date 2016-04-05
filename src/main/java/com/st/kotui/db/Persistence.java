@@ -304,5 +304,37 @@ public class Persistence {
 			return jo;
 		}
 	}
+	
+	public JSONObject addGame(int userID1, int userID2) {
+		String query = SQL_Statements.addGame;
+		JSONObject jo = new JSONObject();
+		try {
+			long key = -1L;
+			Date now = new Date();
+			PreparedStatement prep = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			prep.toString();
+			prep.setInt(1,userID1);
+			prep.setInt(2,userID2);
+			prep.setString(3, now.toString());
+
+			prep.executeUpdate();
+			ResultSet rs = prep.getGeneratedKeys();
+			if (rs != null && rs.next()) {
+				key = rs.getLong(1);
+			}
+			long id = key;
+			int user1 = userID1;
+			int user2 = userID2;
+			jo.put("id", id);
+			jo.put("IdUser1", user1);
+			jo.put("IdUser2", user2);
+			jo.put("TimeCreated", now.toString());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			return jo;
+		}
+	}
 
 }

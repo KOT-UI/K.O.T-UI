@@ -9,15 +9,15 @@ import javax.ws.rs.core.MediaType;
 
 import org.json.JSONObject;
 
-import com.st.kotui.service.UserService;
+import com.st.kotui.service.GameService;
 
 /**
- * Root resource (exposed at "userresource" path)
+ * Root resource (exposed at "gameresource" path)
  */
 
-@Path("users")
-public class UserResourse {
-	private UserService resource = new UserService();
+@Path("gameresource")
+public class GameResource {
+	private GameService resource = new GameService();
 
 	/**
 	 * Method handling HTTP GET requests. The returned object will be sent to
@@ -26,13 +26,13 @@ public class UserResourse {
 	 * @return String that will be returned as a text/plain response.
 	 */
 	@POST
-	@Path("create")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String saveIt(String request) {
 		JSONObject jo = new JSONObject(request);
-		String username = jo.getString("username");
-		JSONObject respJo = resource.addUser(username);
+		int User1 = jo.getInt("IdUser1");
+		int User2 = jo.getInt("IdUser2");
+		JSONObject respJo = resource.createGame(User1, User2);
 		return respJo.toString();
 	//test drive
 	}

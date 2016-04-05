@@ -14,7 +14,8 @@ public class SQL_Statements {
 	public static final String getResource = "SELECT * FROM `kotui`.`testTable` WHERE idtestTable=?";
     public static final String getRndOp = "SELECT * FROM kotui.user WHERE (status = 1 AND username <> '?') ORDER BY rand() LIMIT 1";
 	public static final String getCards = "SELECT * FROM `kotui`.`picture` LIMIT ?";
-
+    public static final String addGame = "INSERT INTO kotui.game (user1ID,user2ID,started) VALUES(?,?,?)";
+    
 	public static String preparegetRndOp (String username){
 		String query = getRndOp.replaceFirst("\\?",String.valueOf(username));
 		return query;
@@ -48,5 +49,15 @@ public class SQL_Statements {
 								 .replaceFirst("\\?", now.toString())
 								 .replaceFirst("\\?", String.valueOf(id));
 		return query;
+	}
+	public static String prepareGameAdd (int UserID1, int UserID2)
+	{
+		Date now = new Date();
+		String query = addGame.replaceFirst("\\?", String.valueOf(UserID1))
+				 .replaceFirst("\\?", String.valueOf(UserID2))
+				 .replaceFirst("\\?", now.toString());
+		
+		return query;
+		
 	}
 }
