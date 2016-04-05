@@ -134,7 +134,6 @@ public class Persistence {
 			String userdate = now.toString();
 			jo.put("id", id);
 			jo.put("username", user);
-			jo.put("date", userdate);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

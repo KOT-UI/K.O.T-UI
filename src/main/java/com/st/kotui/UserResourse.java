@@ -14,8 +14,8 @@ import com.st.kotui.service.UserService;
 /**
  * Root resource (exposed at "userresource" path)
  */
-@Path("userresource")
 
+@Path("users")
 public class UserResourse {
 	private UserService resource = new UserService();
 
@@ -33,6 +33,7 @@ public class UserResourse {
 	}
 
 	@POST
+	@Path("create")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String saveIt(String request) {
