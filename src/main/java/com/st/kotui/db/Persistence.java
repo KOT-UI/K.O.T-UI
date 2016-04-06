@@ -305,6 +305,7 @@ public class Persistence {
 		}
 	}
 	
+	@SuppressWarnings("finally")
 	public JSONObject addGame(int userID1, int userID2) {
 		String query = SQL_Statements.addGame;
 		JSONObject jo = new JSONObject();
