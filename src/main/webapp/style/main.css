@@ -195,7 +195,6 @@ label {
 	.card{
 			height:200px;
 			width:200px;
-			background-color:red;
 			margin-right:20px;
 			background-size:cover;
 			background-position:center center;
@@ -216,14 +215,14 @@ label {
     position: relative;
     float: right;
     margin-right: 10px;
-    background-color: #000000;
     }
 	.scale div{
 		position:absolute;
 		left:0;
 		right:0;
 		height:150px;
-		
+		background-size:cover;
+		background-position:center center;
 	} 
 	h1{
 	font-family: 'Raleway', sans-serif;
