@@ -71,6 +71,9 @@ public class UserResourse {
 			}
 			JSONObject filter = new JSONObject();
 			filter.put("id", game.getInt("id"));
+			/*
+			JSONObject you = resource.getUser(game.);
+			filter.put("you", game.getInt("id"));*/
 			return filter.toString();
 		} else {
 			JSONObject error = new JSONObject();

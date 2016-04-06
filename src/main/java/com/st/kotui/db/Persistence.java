@@ -226,7 +226,7 @@ public class Persistence {
 
 			ResultSet rs = prep.executeQuery();
 			if (rs != null && rs.next()) {
-				count = rs.getInt(0);
+				count = rs.getInt(1);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -250,6 +250,8 @@ public class Persistence {
 				game.put("id", rs.getInt("id"));
 				game.put("user1ID", rs.getInt("user1ID"));
 				game.put("user2ID", rs.getInt("user2ID"));
+				game.put("user1Cards", rs.getString("user1Cards"));
+				game.put("user2Cards", rs.getString("user2Cards"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -341,6 +343,28 @@ public class Persistence {
 			return jo;
 		}
 	}
+	
+	public void chooseCards(int gameId, boolean isUser1, JSONArray JSONCardIds) {
+		String query = SQL_Statements.setGameCardsUser;
+		try {
+
+			if (isUser1) {
+				query = query.replaceFirst("\\?", "user2Cards");
+			} else {
+				query = query.replaceFirst("\\?", "user1Cards");
+			}
+
+			PreparedStatement prep = connection.prepareStatement(query);
+			prep.setInt(2, gameId);
+			prep.setString(1, JSONCardIds.toString());
+			prep.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	
 	@SuppressWarnings("finally")
 	public JSONObject addGame(int userID1, int userID2) {
