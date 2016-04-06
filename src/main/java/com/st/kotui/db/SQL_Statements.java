@@ -19,6 +19,7 @@ public class SQL_Statements {
     public static final String getRndOpById = "SELECT * FROM kotui.user WHERE (status = 1 AND id <> ?) ORDER BY rand() LIMIT 1";
 	public static final String getCards = "SELECT * FROM `kotui`.`picture` LIMIT ?";
     public static final String addGame = "INSERT INTO kotui.game (user1ID,user2ID,started) VALUES(?,?,?)";
+    public static final String getCardById = "SELECT * FROM `kotui`.`picture` WHERE id = ?";
     
 	public static String preparegetRndOp (String username){
 		String query = getRndOp.replaceFirst("\\?",String.valueOf(username));

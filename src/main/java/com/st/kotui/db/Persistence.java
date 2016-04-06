@@ -398,5 +398,26 @@ public class Persistence {
 			return jo;
 		}
 	}
+	
+	@SuppressWarnings("finally")
+	public JSONObject getCardById(int id) {
+		String query = SQL_Statements.getCardById;
+		JSONObject card = new JSONObject();
+		try {
+			PreparedStatement prep = connection.prepareStatement(query);
+			prep.setInt(1, id);
+			ResultSet rs = prep.executeQuery();
+			if (rs.next()) {
+				card.put("id", rs.getInt("id"));
+				card.put("name", rs.getString("name"));
+				card.put("image", rs.getString("image"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			return card;
+		}
+	}
 
 }
