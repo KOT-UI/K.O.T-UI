@@ -28,6 +28,7 @@ body{background-color:#EAE2C9;
     	      color:white;
     	      font-family: 'Raleway', sans-serif; 
     	      background-color:#39AEC3;
+    	      
              
     	     }
 #time-left{
@@ -39,6 +40,7 @@ body{background-color:#EAE2C9;
 	font-family: 'Raleway', sans-serif;
 	
 }
+
 
 .login {
 	height:auto;
@@ -56,7 +58,8 @@ body{background-color:#EAE2C9;
 	font-size:15px;
 	width:150px;
 	height:30px;	
-	background-color:#EAE2C9;
+	margin-left:10;
+	line-height:2px
 
 }
 
@@ -70,6 +73,11 @@ footer div{
 	font-size:43px;	
 }
 
+.hello {
+	font-family: 'Raleway', sans-serif;
+	       font-size:15px;
+	
+}
 /*------------------------------- END LOGIN --------------------------------------*/
 
 /*---------------------------------Loader--------------------------------------*/
