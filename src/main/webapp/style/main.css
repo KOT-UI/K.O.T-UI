@@ -32,10 +32,12 @@ body{background-color:#EAE2C9;
     	     }
 #time-left{
 	position:absolute; 
-	top:120px; 
-	left:170px;
-	z-index:20; 
-	font-size:20px;
+	top:50px; 
+	right:50px;
+	font-size:60px;
+	color:white;
+	font-family: 'Raleway', sans-serif;
+	
 }
 
 .login {
