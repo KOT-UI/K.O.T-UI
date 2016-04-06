@@ -1,10 +1,12 @@
 package com.st.kotui;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.json.JSONObject;
@@ -54,13 +56,26 @@ public class UserResourse {
 	//test drive
 	}
 	
-	@GET
+	@POST
 	@Path("connect")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String getOpponent() {
-		// JSONObject respJo = resource.tryMakeGame();
-		// return respJo.toString();
-		return null;
+	public String getOpponent(String req) {
+		JSONObject request = new JSONObject(req);
+		if (request.has("id")) {
+			JSONObject game = resource.tryMakeGame(request.getInt("id"));
+			if (!game.has("id")) {
+				JSONObject error = new JSONObject();
+				error.put("error", "No game available!");
+				return error.toString();
+			}
+			JSONObject filter = new JSONObject();
+			filter.put("id", game.getInt("id"));
+			return filter.toString();
+		} else {
+			JSONObject error = new JSONObject();
+			error.put("error", "Invalid query params!");
+			return error.toString();
+		}
 	}
 }

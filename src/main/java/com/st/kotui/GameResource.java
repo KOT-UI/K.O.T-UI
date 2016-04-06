@@ -32,7 +32,9 @@ public class GameResource {
 		JSONObject jo = new JSONObject(request);
 		int User1 = jo.getInt("IdUser1");
 		int User2 = jo.getInt("IdUser2");
-		JSONObject respJo = resource.createGame(User1, User2);
+		JSONObject game = resource.createGame(User1, User2);
+		JSONObject respJo = new JSONObject();
+		respJo.put("id", game.getInt("id"));
 		return respJo.toString();
 	//test drive
 	}
