@@ -25,6 +25,23 @@ public class UserResourse {
 	 *
 	 * @return String that will be returned as a text/plain response.
 	 */
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String getIt() {
+		JSONObject respJo = resource.getResources();
+		return respJo.toString();
+	}
+	
+	@GET
+	@Path("count")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String getCount() {
+		JSONObject respJo = resource.getActiveUsersCount();
+		return respJo.toString();
+	}
+
 	@POST
 	@Path("create")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -35,5 +52,15 @@ public class UserResourse {
 		JSONObject respJo = resource.addUser(username);
 		return respJo.toString();
 	//test drive
+	}
+	
+	@GET
+	@Path("connect")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String getOpponent() {
+		// JSONObject respJo = resource.tryMakeGame();
+		// return respJo.toString();
+		return null;
 	}
 }

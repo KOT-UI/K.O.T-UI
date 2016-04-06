@@ -63,5 +63,16 @@ public class UserService {
 		
 	}
 	
+	public JSONObject getActiveUsersCount() {
+		JSONObject jo = new JSONObject();
+		try {
+			int count = Persistence.get().getActiveUsersCount();
+			jo.put("value", count);
+		} catch (Exception e) {
+			jo.put("error", "Couldn't get users count!");
+		}
+		return jo;
+	}
+	
 }
 //test drive
