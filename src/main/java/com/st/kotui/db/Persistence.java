@@ -62,7 +62,7 @@ public class Persistence {
 		String query = SQL_Statements.addResource;
 		JSONObject jo = new JSONObject();
 		try {
-			long key = -1L;
+			int key = -1;
 			PreparedStatement prep = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			prep.toString();
 			prep.setString(1, message);
@@ -70,10 +70,10 @@ public class Persistence {
 			prep.executeUpdate();
 			ResultSet rs = prep.getGeneratedKeys();
 			if (rs != null && rs.next()) {
-				key = rs.getLong(1);
+				key = rs.getInt(1);
 			}
 			System.out.println(key);
-			long id = key;
+			int id = key;
 			String messge = message;
 			jo.put("id", id);
 			jo.put("message", messge);
@@ -98,7 +98,7 @@ public class Persistence {
 			ResultSet rs = prep.executeQuery();
 			if (rs != null && rs.next()) {
 
-				long id = rs.getInt("idtestTable");
+				int id = rs.getInt("idtestTable");
 				;
 				String messge = rs.getString("message");
 				;
@@ -117,7 +117,7 @@ public class Persistence {
 		String query = SQL_Statements.addUser;
 		JSONObject jo = new JSONObject();
 		try {
-			long key = -1L;
+			int key = -1;
 			Date now = new Date();
 			PreparedStatement prep = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
@@ -126,9 +126,9 @@ public class Persistence {
 			prep.executeUpdate();
 			ResultSet rs = prep.getGeneratedKeys();
 			if (rs != null && rs.next()) {
-				key = rs.getLong(1);
+				key = rs.getInt(1);
 			}
-			long id = key;
+			int id = key;
 			String user = username;
 			String userdate = now.toString();
 			jo.put("id", id);
@@ -141,19 +141,19 @@ public class Persistence {
 		}
 	}
 	@SuppressWarnings("finally")
-	public JSONObject getUser(long id) {
+	public JSONObject getUser(int id) {
 		String query = SQL_Statements.getUserById;
 		JSONObject jo = new JSONObject();
 		try {
 
 			PreparedStatement prep = connection.prepareStatement(query);
 
-			prep.setLong(1, id);
+			prep.setInt(1, id);
 
 			ResultSet rs = prep.executeQuery();
 			if (rs != null && rs.next()) {
 
-				long idUser = rs.getInt("id");
+				int idUser = rs.getInt("id");
 				;
 				String user = rs.getString("username");
 				;
@@ -183,7 +183,7 @@ public class Persistence {
 			ResultSet rs = prep.executeQuery();
 			if (rs != null && rs.next()) {
 
-				long idUser = rs.getInt("id");
+				int idUser = rs.getInt("id");
 				;
 				String user = rs.getString("username");
 				;
@@ -201,34 +201,19 @@ public class Persistence {
 		}
 	}
 	@SuppressWarnings("finally")
-	public JSONObject updateUser(String username, int status) {
+	public void updateUser(String username, int status) {
 		String query = SQL_Statements.updateUser;
-		JSONObject jo = new JSONObject();
 		try {
 			Date now = new Date();
 			PreparedStatement prep = connection.prepareStatement(query);
 			prep.setInt(1, status);
 			prep.setString(2, now.toString());
 			prep.setString(3, username);
-
-			ResultSet rs = prep.executeQuery();
-			if (rs != null && rs.next()) {
-
-				long idUser = rs.getInt("id");
-				;
-				String user = rs.getString("username");
-				;
-				int userstatus = rs.getInt("status");
-				;
-				jo.put("id", idUser);
-				jo.put("username", user);
-				jo.put("status", userstatus);
-			}
+			System.out.println("");
+			int rowCount = prep.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			return jo;
 		}
 	}
 	
@@ -250,6 +235,30 @@ public class Persistence {
 			return count;
 		}
 	}
+	
+	@SuppressWarnings("finally")
+	public JSONObject getGameByUserId(int userId) {
+		String query = SQL_Statements.getGameByUserId;
+		JSONObject game = new JSONObject();
+		try {
+			PreparedStatement prep = connection.prepareStatement(query);
+			prep.setInt(1, userId);
+			prep.setInt(2, userId);
+
+			ResultSet rs = prep.executeQuery();
+			if (rs != null && rs.next()) {
+				game.put("id", rs.getInt("id"));
+				game.put("user1ID", rs.getInt("user1ID"));
+				game.put("user2ID", rs.getInt("user2ID"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			return game;
+		}
+	}
+	
 	//test drive
 	
 	@SuppressWarnings("finally")
@@ -261,12 +270,40 @@ public class Persistence {
 		{
 			PreparedStatement prep = connection.prepareStatement(query);
 			prep.setString(1, username);
+			System.out.println("BLAR");
 			ResultSet rs = prep.executeQuery();
 			if (rs != null && rs.next())
 			{
 				String user = rs.getString("username");
 				
 				jo.put("username", user);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			return jo;
+		}
+	}
+	
+	@SuppressWarnings("finally")
+	public JSONObject getOpponent (int id)
+	{
+		String query = SQL_Statements.getRndOpById;
+		JSONObject jo = new JSONObject();
+		try
+		{
+			PreparedStatement prep = connection.prepareStatement(query);
+			prep.setInt(1, id);
+			ResultSet rs = prep.executeQuery();
+			if (rs != null && rs.next())
+			{
+				String user = rs.getString("username");
+				
+				jo.put("username", user);
+				jo.put("id", rs.getInt("id"));
+				jo.put("status", rs.getInt("status"));
 				
 			}
 		} catch (SQLException e) {
@@ -310,7 +347,7 @@ public class Persistence {
 		String query = SQL_Statements.addGame;
 		JSONObject jo = new JSONObject();
 		try {
-			long key = -1L;
+			int key = -1;
 			Date now = new Date();
 			PreparedStatement prep = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			prep.toString();
@@ -321,9 +358,9 @@ public class Persistence {
 			prep.executeUpdate();
 			ResultSet rs = prep.getGeneratedKeys();
 			if (rs != null && rs.next()) {
-				key = rs.getLong(1);
+				key = rs.getInt(1);
 			}
-			long id = key;
+			int id = key;
 			int user1 = userID1;
 			int user2 = userID2;
 			jo.put("id", id);

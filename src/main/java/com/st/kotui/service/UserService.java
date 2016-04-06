@@ -14,7 +14,7 @@ public class UserService {
 		}
 	}
 	
-	public JSONObject getUser(long id) {
+	public JSONObject getUser(int id) {
 		JSONObject jo = Persistence.get().getUser(id);
 		return jo;
 	}
@@ -38,8 +38,9 @@ public class UserService {
 				error.put("error", "User is already logged in.");
 				return error;
 			} else {
-				JSONObject updated = Persistence.get().updateUser(existing.getString("username"), 1);
-				return updated;
+				Persistence.get().updateUser(existing.getString("username"), 1);
+				existing.put("status", 1);
+				return existing;
 			}
 		} else {
 			JSONObject created = Persistence.get().addUser(username);
@@ -47,9 +48,8 @@ public class UserService {
 		}
 	}
 	
-	public JSONObject updateUser(String username, int state) {
-		JSONObject jo = Persistence.get().updateUser(username, state);
-		return jo;
+	public void updateUser(String username, int state) {
+		Persistence.get().updateUser(username, state);
 	}
 
 	public JSONObject getResources() {
@@ -61,6 +61,27 @@ public class UserService {
 		JSONObject jo= Persistence.get().getOpponent(username);
 		return jo;
 		
+	}
+	
+	public JSONObject tryMakeGame(int id) {
+		JSONObject thisPlayer = getUser(id);
+		JSONObject game;
+		if (thisPlayer.getInt("status") == 2) {
+			game = new JSONObject();
+			game = Persistence.get().getGameByUserId(id);
+		} else {
+			Persistence p = Persistence.get();
+			JSONObject opp = Persistence.get().getOpponent(id);
+			if (!opp.has("id")) {
+				JSONObject error = new JSONObject();
+				error.put("error", "No active users found!");
+				return error;
+			}
+			p.updateUser(thisPlayer.getString("username"), 2);
+			p.updateUser(opp.getString("username"), 2);
+			game = Persistence.get().addGame(id, opp.getInt("id"));
+		}
+		return game;
 	}
 	
 	public JSONObject getActiveUsersCount() {

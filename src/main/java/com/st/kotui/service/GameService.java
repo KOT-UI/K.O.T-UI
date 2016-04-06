@@ -19,5 +19,11 @@ public class GameService {
 				return created;
 
 	}
+	
+	public JSONObject getGame(int userId)
+	{
+		JSONObject created = Persistence.get().getGameByUserId(userId);
+		return created;
+	}
 
 }
