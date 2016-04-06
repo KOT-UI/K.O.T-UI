@@ -83,7 +83,8 @@ public class UserService {
 		}
 		return game;
 	}
-	
+
+
 	public JSONObject getActiveUsersCount() {
 		JSONObject jo = new JSONObject();
 		try {
