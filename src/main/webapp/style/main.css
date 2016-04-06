@@ -28,9 +28,15 @@ body{background-color:#EAE2C9;
     	      color:white;
     	      font-family: 'Raleway', sans-serif; 
     	      background-color:#39AEC3;
-              
-    	      
+             
     	     }
+#time-left{
+	position:absolute; 
+	top:120px; 
+	left:170px;
+	z-index:20; 
+	font-size:20px;
+}
 
 .login {
 	height:auto;
@@ -168,14 +174,13 @@ label {
 /*-------------------------------- END LOADER ------------------------------------*/
 
 /*-------------------------------CHOOSE PHOTOS -----------------------------------*/
-.Chose-photos{height:auto;
+.container{height:auto;
 	          width:80%;
 	          margin:100px auto ;
 	          background-color:#FFFCE5;
 	          padding:50px;
 	          text-align:center;
 	         }
-/* ---------------------------------......------------------------------------- */
 	
 	.card{
 			height:200px;
@@ -220,5 +225,62 @@ label {
 	padding:15;
 	margin-top:10px;
 	}
-/* ---------------------------------......------------------------------------- */
+
 /*---------------------------- END CHOOSE PHOTOS -------------------------------- */
+
+/* ----------------------------- GAME STARTS --------------------------------------*/
+.game-cards {width:200px;
+             height:225px;
+             border:1px solid black;
+             display:inline-block;
+             margin:5px;
+             } 
+
+.game-cards input{ width:200px; 
+                   height:25px;
+	             }
+	             
+
+	             
+
+
+/* ----------------------------- END GAME STARTS ----------------------------------*/
+
+
+ /* -------------------------------- GAME SUMMARY -------------------------------- */
+   .result {
+			width:48%;
+			float:left;
+			border-right:1px solid;
+	}
+	.results {
+			width:50%;
+			float:right;
+			
+	}
+	.mistake{
+	
+			height:150px;
+			width:150px;
+			margin-right:20px;
+			margin-top:35px;
+			background-size:cover;
+			background-position:center center;
+			display: inline-block;
+	}
+	.answer{
+	    	height:150px;
+			width:150px;
+			background-color:red;
+			margin-right:20px;
+			background-size:cover;
+			background-position:center center;
+			position:relative;
+			display: inline-block;
+			
+	}
+	.mistake p {border:1px solid black; width:148px; height:20px; margin-top:10px;}
+	
+	
+
+ /* -------------------------------- END GAME SUMMARY ------	--------------------- */
