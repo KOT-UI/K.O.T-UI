@@ -20,7 +20,7 @@
   <div class="login">
     <div>
     	Hello, <input type="text"/>
-    	<p>DO YOU WANT TO <button>PLAY A GAME</button> ?</p>
+    	<p>DO YOU WANT TO <button id="play">PLAY A GAME</button> ?</p>
     </div>
   </div>
 
@@ -42,11 +42,13 @@
 
 <!-- ----------------------------- CHOOSE PHOTOS -------------------------------- -->
 
-<div class="container">
+<div class="container choose-photos">
 	<h1>Choose images for your oponent </h1>
+	<div id="prepare-screen-card-holder">
 		<div class="card"> </div>
  		<div class="card" > </div>
  		<div class="card" > </div>
+ 	</div>
      <div class="scale">
  		<div style="background-color:#f0f5f5;bottom:10px; "></div>
     	<div style="background-color:#e0ebeb;bottom:20px;"></div>
@@ -74,7 +76,7 @@
 <!-- ---------------------------- END CHOOSE PHOTOS ----------------------------- -->
 
 <!-- ------------------------------- GAME SUMMARY --------------------------------- -->
-<div class="container">
+<div class="container summary">
 	
 		<div class="result" >
 		    <div class="result-points">POINTS: <br>60</div>
@@ -111,7 +113,7 @@
 
 <!-- ------------------------------GAME START --------------------------------- -->
 
- <div class="container">
+ <div class="container start">
    
    <div class="game-cards"><div class="card"> </div> <input type="text"/> </div>
    <div class="game-cards"><div class="card"> </div> <input type="text"/> </div>
