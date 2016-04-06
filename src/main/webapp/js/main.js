@@ -28,6 +28,20 @@ $( document ).ready(function() {
 	});
 	}
 	
+	function StartTimer(sec){
+		   var timeLeft=sec; 
+		   timer = setInterval(function()
+		   {
+		     if(timeLeft !=0){
+		       $('#time-left').html(timeLeft);
+		        timeLeft--;
+		     }
+		     else{
+		        console.log("gameOver");
+		     }
+		   },1000);
+		};
+	
 	function game(){
 		displayView('start');
 		timeShow();
