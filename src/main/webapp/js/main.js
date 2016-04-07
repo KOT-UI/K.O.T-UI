@@ -199,6 +199,11 @@ $( document ).ready(function() {
 	$('body').on('click', '#prepare-screen-card-holder .card', function() {
 	
 		if(chosenCards.length == 9){
+			PrepareCardsToSend=[];
+			for(i=0;i<chosenCards.lenght;i++){
+				PrepareCardsToSend.push(chosenCards[i].id)
+			}
+			console.log(PrepareCardsToSend);
 			wait();
 		}else{
 			var id = $(this).attr("data-id");
