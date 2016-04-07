@@ -395,6 +395,87 @@ public class Persistence {
 		}
 	}
 	
+	public JSONObject addResult(int gameID, int result, int index, String wrong) {
+		String query = SQL_Statements.addResult;
+		JSONObject jo = new JSONObject();
+		try {
+			PreparedStatement prep = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			prep.toString();
+			prep.setInt(1,index);
+			prep.setInt(2,result);
+			prep.setInt(3, index);
+			prep.setString(4, wrong);
+			prep.setInt(5, gameID);
+			prep.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			jo.put("error", "SQL error");
+		} finally {
+			return jo;
+		}
+	}
+	@SuppressWarnings("finally")
+	public JSONArray getResult (int userID, int index)
+	{
+		String query = SQL_Statements.getResult;
+		//JSONObject jo = new JSONObject();
+		JSONArray mywrongArray = new JSONArray(); //keeps the wrong answers
+		JSONObject wrongImg = new JSONObject(); 
+		try {
+			PreparedStatement prep = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			JSONObject game =  Persistence.get().getGameByUserId(userID); //The game handle
+			prep.toString();
+			prep.setInt(1, index);
+			prep.setInt(2, game.getInt("id"));
+			ResultSet rs = prep.executeQuery();
+			JSONArray cards; //keeps the chosen cards' id
+			
+			
+			if (rs != null && rs.next()) {
+			int result; // declares the id of the result
+			String wrong = new String();
+			
+			//String[] cardName = new String[cards.length()]; //keeps the name of cards
+			
+			
+			if(index==1)
+			{
+				result = rs.getInt("user1Result");
+				wrong = rs.getString("user1Wrong");
+				cards = new JSONArray(game.getString("user1Cards")); //Gets chosen cards
+			}
+			else
+			{
+				result = rs.getInt("user2Result");
+				wrong = rs.getString("user2Wrong");
+				cards = new JSONArray(game.getString("user2Cards")); //Gets chosen cards' id
+			}
+			
+			String[] wrongArray = wrong.split(","); //Splits the ids kept in wrong
+			String[] cardName = new String[wrongArray.length]; //keeps the name of cards
+			String[] imagePath = new String[wrongArray.length]; //keeps the image path of the cards
+			//int[] wrongCardsIdArray = new int[wrongArray.length]; //keeps the id of the cards
+
+			
+			for (int i = 0; i < wrongArray.length; ++i) {
+			    JSONObject wrongCard = Persistence.get().getCardById(Integer.parseInt(wrongArray[i]));
+			    cardName[i] = wrongCard.getString("name");
+				imagePath[i] = wrongCard.getString("path");
+			    wrongImg.put("id", Integer.parseInt(wrongArray[i]));
+			    wrongImg.put("name", cardName[i]);
+			    wrongImg.put("image", imagePath[i]);
+			    mywrongArray.put(wrongImg);
+			    }
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			return mywrongArray;
+		}
+	}
+
 	@SuppressWarnings("finally")
 	public JSONObject getCardById(int id) {
 		String query = SQL_Statements.getCardById;
@@ -408,12 +489,12 @@ public class Persistence {
 				card.put("name", rs.getString("name"));
 				card.put("image", rs.getString("image"));
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			return card;
 		}
 	}
+	
 
 }

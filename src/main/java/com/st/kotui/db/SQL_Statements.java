@@ -18,9 +18,19 @@ public class SQL_Statements {
     public static final String getRndOp = "SELECT * FROM kotui.user WHERE (status = 1 AND username <> '?') ORDER BY rand() LIMIT 1";
     public static final String getRndOpById = "SELECT * FROM kotui.user WHERE (status = 1 AND id <> ?) ORDER BY rand() LIMIT 1";
 	public static final String getCards = "SELECT * FROM `kotui`.`picture` LIMIT ?";
+
     public static final String addGame = "INSERT INTO kotui.game (user1ID,user2ID,started,user1Cards,user2Cards,user1Result,user2Result,user1Wrong,user2Wrong) VALUES(?,?,?,'','',-1,-1,'','')";
+
+  //  public static final String addGame = "INSERT INTO kotui.game (user1ID,user2ID,started) VALUES(?,?,?)";
+
+
     public static final String getCardById = "SELECT * FROM `kotui`.`picture` WHERE id = ?";
-    
+
+   // public static final String addFirstAnswers = "UPDATE kotui.game SET firstAnswers=? WHERE id = ?";
+   // public static final String addSecondAnswers = "UPDATE kotui.game SET secondAnswers=? WHERE id = ?";
+    public static final String addResult = "UPDATE kotui.game SET user?Result=?, user?Wrong=? WHERE id=?";
+    public static final String getResult = "SELECT user?Result, user?Wrong FROM kotui.game WHERE id=?";
+
 	public static String preparegetRndOp (String username){
 		String query = getRndOp.replaceFirst("\\?",String.valueOf(username));
 		return query;
@@ -65,4 +75,22 @@ public class SQL_Statements {
 		return query;
 		
 	}
+	/*
+	public static String prepareAnswersAdd (String userAnswers, int Gameid, int index)
+	{
+		if(Gameid==1)
+		{
+		String query = addFirstAnswers.replaceFirst("\\?", userAnswers)
+				 .replaceFirst("\\?", String.valueOf(Gameid));		
+		return query;
+		}
+		else
+		{
+			String query = addSecondAnswers.replaceFirst("\\?", userAnswers)
+					 .replaceFirst("\\?", String.valueOf(Gameid));
+			
+			return query;
+		}
+
+	}*/
 }
