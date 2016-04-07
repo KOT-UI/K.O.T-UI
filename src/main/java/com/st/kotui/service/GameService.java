@@ -29,6 +29,7 @@ public class GameService {
 	
 	public void chooseCards(int gameId, int userId, JSONArray JSONCardIds)
 	{
+		putAdditionalCards(JSONCardIds);
 		JSONObject game = getGame(userId);
 		boolean isUser1 = (game.getInt("user1ID") == userId);
 		Persistence.get().chooseCards(game.getInt("id"), isUser1, JSONCardIds);
@@ -46,6 +47,29 @@ public class GameService {
 		}
 		JSONArray ja = new JSONArray(game.getString(whichCards));
 		return ja;
+	}
+	
+	private final static int REQUIRED_CARDS = 10;
+	
+	private boolean contains(JSONArray arr, int x) {
+		for (int i = 0, len = arr.length(); i < len; ++i) {
+			if (arr.getInt(i) == x) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void putAdditionalCards(JSONArray cards) {
+		JSONArray add = Persistence.get().getCards(REQUIRED_CARDS);
+		for (int i = cards.length(), len = REQUIRED_CARDS; i < len; ++i) {
+			for (int j = 0; j < add.length(); ++j) {
+				int cardId = add.getJSONObject(j).getInt("id");
+				if (!contains(cards, cardId)) {
+					add.put(cardId);
+				}
+			}
+		}
 	}
 
 }
