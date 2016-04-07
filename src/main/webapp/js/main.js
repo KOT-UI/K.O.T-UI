@@ -34,19 +34,15 @@ $( document ).ready(function() {
 
 
 	
-	function game(){
-		$.get( "webapi/cards", function( result ) {
-			
+		function game(cards){
+		
 			out = "";
 			for(var i=0; i<10; i++) 
 				{
-				out += '<div class="game-cards"><div style="background-image:url(data/cards/' + result[i].image +')" class="card" data-id="' + result[i].id +'"> </div> <input type="text"/> </div>';
+				out += '<div class="game-cards"><div style="background-image:url(data/cards/' + cards[i].image +')" class="card" data-id="' + cards[i].id +'"> </div> <input type="text"/> </div>';
 				}
 			$('#game-card-container').html(out);
 			displayView('start');
-			timeShow(60,'game');
-		});
-
 		};
 	
 		function gameOver(){
@@ -125,14 +121,58 @@ $( document ).ready(function() {
 	}
 	function wait()
 	{	
+		PrepareCardsToSend=[];
+		for(i=0;i<chosenCards.lenght;i++){
+			PrepareCardsToSend.push(chosenCards[i].id)
+		}
+		console.log(PrepareCardsToSend);
+		
 		timeHide();
 		clearInterval(timer);
 		displayView('cs-loader');
-		setTimeout(function(){ 
-			game();
-		}, 3000);
 		
+		$.ajax({
+		    url: 'webapi/game/cards',
+		    type: 'post',
+		    data: JSON.stringify({
+		    	cardIds: PrepareCardsToSend,
+		    	userId: me.id,
+		    	gameId: gameId,
+		    }),
+		    headers: {
+		        "Content-Type": 'application/json',   //If your header name has spaces or any other char not appropriate
+		        "Accept": 'application/json'  //for object property name, use quoted notation shown in second
+		    },
+		    dataType: 'json',
+		    success: function (data) {
+		    	if (data.error) {
+		    		console.log("Could't send cards to game server.");
+		    	}
+		    },
+		    contentType: 'application/json; charset=utf-8',
+		    dataType: 'json',
+		});
 		
+		var waitCardsHandle = setInterval(function() {
+			$.ajax({
+			    url: 'webapi/game/cards',
+			    type: 'get',
+			    headers: {
+			        "Content-Type": 'application/json',   //If your header name has spaces or any other char not appropriate
+			        "Accept": 'application/json'  //for object property name, use quoted notation shown in second
+			    },
+			    data: { userId: me.id, gameId: gameId },
+			    dataType: 'json',
+			    success: function (data) {
+			    	if (data.state === "ready") {
+		    			game(data.cards);
+		    			clearInterval(waitCardsHandle);
+		    		}
+			    },
+			    contentType: 'application/json; charset=utf-8',
+			    dataType: 'json',
+			});
+		}, 1000);
 		
 	}
 	
@@ -248,11 +288,6 @@ $( document ).ready(function() {
 	$('body').on('click', '#prepare-screen-card-holder .card', function() {
 	
 		if(chosenCards.length == 9){
-			PrepareCardsToSend=[];
-			for(i=0;i<chosenCards.lenght;i++){
-				PrepareCardsToSend.push(chosenCards[i].id)
-			}
-			console.log(PrepareCardsToSend);
 			wait();
 		}else{
 			var id = $(this).attr("data-id");
@@ -267,6 +302,8 @@ $( document ).ready(function() {
 			// '<div style="background-image:url(data/cards/' + arr[i].image +')" class="card" data-id="' + i +'"></div>';
 		}
 	});
+	
+	var CHOOSE_CARDS_TIMEOUT = 30;
 	
 	$("#debug-button").click(function() {
 		DEBUG = true;

@@ -69,7 +69,7 @@ public class GameResource {
 		JSONObject respJo = new JSONObject();
 		try {
 			JSONArray carr = resource.getCards(gameId, userId);
-			respJo.put("data", carr);
+			respJo.put("cards", carr);
 			if (carr.length() == 0) {
 				respJo.put("status", "waiting");
 			} else {
