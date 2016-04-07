@@ -1,3 +1,6 @@
+// remove before production
+var DEBUG = false;
+
 $( document ).ready(function() {
 	me ={
 		"id":0,
@@ -8,6 +11,7 @@ $( document ).ready(function() {
 	var CardsYouCanChooseFrom =[];
 	var chosenCards = [];
 	var threePhotos = [];
+	var gameId = null;
 	
 	
 	function login(){
@@ -130,14 +134,61 @@ $( document ).ready(function() {
 	}
 	//---------------Event Listeners--------------------------
 	$('#play').click(function(){
+		me.name="John";
 		me.name=$('#name').val();
 		displayView('cs-loader');
-		$.post("webapi/users/create", { username: me.name }, function(data) {
+		/*$.post("webapi/users/create", { "username": me.name }, function(data) {
 			me.id = data.id;
-			
-		}); 
+		}, "json");*/
 		
-		setTimeout(function(){ preparation() }, 1000)
+		$.ajax({
+		    url: 'webapi/users/create',
+		    type: 'post',
+		    data: JSON.stringify({
+		        "username": me.name,
+		    }),
+		    headers: {
+		        "Content-Type": 'application/json',   //If your header name has spaces or any other char not appropriate
+		        "Accept": 'application/json'  //for object property name, use quoted notation shown in second
+		    },
+		    dataType: 'json',
+		    success: function (data) {
+		    	me.id = data.id;
+		    	console.log(me);
+		    },
+		    contentType: 'application/json; charset=utf-8',
+		    dataType: 'json',
+		});
+		
+		if (DEBUG) {
+			setTimeout(function() {
+				preparation();
+			}, 1000);
+		} else {
+			var connectHandle = setInterval(function() {
+				$.ajax({
+				    url: 'webapi/users/connect',
+				    type: 'post',
+				    data: JSON.stringify({
+						id: me.id,
+					}),
+				    headers: {
+				        "Content-Type": 'application/json',
+				        "Accept": 'application/json'
+				    },
+				    dataType: 'json',
+				    success: function (data) {
+				    	if (!data.error) {
+							gameId = data.id;
+							preparation();
+					    	clearInterval(connectHandle);
+						}
+				    },
+				    contentType: 'application/json; charset=utf-8',
+				    dataType: 'json',
+				});
+			}, 1000);
+		}
 	})
 	
 	function updateSideCards(card) {
@@ -163,6 +214,9 @@ $( document ).ready(function() {
 		}
 	});
 	
+	$("#debug-button").click(function() {
+		DEBUG = true;
+	});
 	
 	
 });

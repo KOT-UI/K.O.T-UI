@@ -378,19 +378,15 @@ public class Persistence {
 			prep.setInt(1,userID1);
 			prep.setInt(2,userID2);
 			prep.setString(3, now.toString());
-
+			
 			prep.executeUpdate();
 			ResultSet rs = prep.getGeneratedKeys();
 			if (rs != null && rs.next()) {
 				key = rs.getInt(1);
+				jo.put("id", rs.getInt("id"));
+				jo.put("user1ID", rs.getInt("user1ID"));
+				jo.put("user2ID", rs.getInt("user2ID"));
 			}
-			int id = key;
-			int user1 = userID1;
-			int user2 = userID2;
-			jo.put("id", id);
-			jo.put("IdUser1", user1);
-			jo.put("IdUser2", user2);
-			jo.put("TimeCreated", now.toString());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
