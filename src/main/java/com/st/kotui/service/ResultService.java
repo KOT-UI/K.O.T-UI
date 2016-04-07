@@ -34,7 +34,7 @@ public class ResultService {
 		return jo;
 	}*/
 	//----------------------------------------------------//
-	public JSONObject tryCalcResult(int userId, String answers)
+	public JSONObject tryCalcResult(int gameId,int userId, String answers)
 	{
 		JSONObject jo = new JSONObject();
 		JSONObject jome = new JSONObject();
@@ -44,6 +44,7 @@ public class ResultService {
 		JSONObject myWrongImg = new JSONObject();
 		JSONObject youWrongImg = new JSONObject();
 		String[] answer = answers.split(",");
+
 	    boolean winner=false;
 		
 		String wrong = new String();
@@ -77,20 +78,16 @@ public class ResultService {
 		otherPlayerId = game.getInt("user1ID");
 		}
 		
-		
-		if(result == -1)
-		{
-		
 		int[] array = new int[cards.length()]; //keeps the id of cards
 		String[] cardName = new String[cards.length()]; //keeps the name of cards
 		String[] imagePath = new String[cards.length()]; //keeps the path of cards
-		
+		result=0;
 		for (int i = 0; i < cards.length(); ++i) {
 			array[i] = cards.getInt(i); //gets cards' id
 		    JSONObject card = Persistence.get().getCardById(array[i]); //gets the card by its id
 		    cardName[i] = card.getString("name");
-			imagePath[i] = card.getString("path");
-		    if(cardName[i]==answer[i])
+			imagePath[i] = card.getString("image");
+		    if(cardName[i].equals(answer[i]))
 		    {
 		    	result++;
 		    } else {
@@ -107,9 +104,6 @@ public class ResultService {
 		    }
 		}
 		addResult(userId, result, wrong, isUser1);
-		} else {
-			
-		}
 		
 		if(otherResult == -1)
 		{
@@ -124,8 +118,8 @@ public class ResultService {
 			joyou.put("winner",!winner);
 			youWrongArray = Persistence.get().getResult(otherPlayerId, otherPlayerIndex);
 			joyou.put("wrong",youWrongArray);
-			jo.put("jome",jome);
-			jo.put("joyou", joyou);
+			jo.put("me",jome);
+			jo.put("you", joyou);
 		/*jo.put("result", result);
 		jo.put("wrong", wrong);*/
 		}

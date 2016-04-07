@@ -250,8 +250,14 @@ public class Persistence {
 				game.put("id", rs.getInt("id"));
 				game.put("user1ID", rs.getInt("user1ID"));
 				game.put("user2ID", rs.getInt("user2ID"));
+				game.put("started", rs.getString("started"));
+				game.put("ended", rs.getInt("ended"));
 				game.put("user1Cards", rs.getString("user1Cards"));
 				game.put("user2Cards", rs.getString("user2Cards"));
+				game.put("user1Result", rs.getInt("user1Result"));
+				game.put("user2Result", rs.getInt("user2Result"));
+				game.put("user1Wrong", rs.getString("user1Wrong"));
+				game.put("user2Wrong", rs.getString("user2Wrong"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
