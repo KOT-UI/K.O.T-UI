@@ -6,10 +6,10 @@ public class SQL_Statements {
 	public static final String getAllImages = "SELECT * FROM kotui.cards";
 	public static final String getAllRndImages = "SELECT * FROM kotui.cards order by rand();";
 	public static final String addUser = "INSERT INTO kotui.user (`username`,`lastActive`) VALUES(?,?);";
-	public static final String getUserById = "SELECT id,username,status FROM kotui.user Where id = ?";
-	public static final String getUserByUsername = "SELECT id,username,status FROM kotui.user Where username = ?";
+	public static final String getUserById = "SELECT id,username,status FROM kotui.user Where id = ? ORDER BY id DESC LIMIT 1";
+	public static final String getUserByUsername = "SELECT id,username,status FROM kotui.user Where username = ? ORDER BY id DESC LIMIT 1";
 	public static final String getGameByUserId = "SELECT * FROM kotui.game WHERE (ended = 0 && (user1ID = ? || user2ID = ?))";
-	public static final String getActiveUsersCount = "SELECT COUNT(id) FROM kotui.user WHERE status > 0";
+	public static final String getActiveUsersCount = "SELECT COUNT(id) FROM kotui.user WHERE status = 1";
 	public static final String setGameCardsUser = "UPDATE kotui.game SET ? = ? WHERE id = ?";
 	public static final String getGameCardsUser = "SELECT ? FROM kotui.game WHERE id = ?";
 	public static final String updateUser = "UPDATE kotui.user SET status=?, lastActive=? WHERE username = ?";

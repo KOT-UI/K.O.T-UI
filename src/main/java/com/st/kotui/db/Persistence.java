@@ -383,9 +383,9 @@ public class Persistence {
 			ResultSet rs = prep.getGeneratedKeys();
 			if (rs != null && rs.next()) {
 				key = rs.getInt(1);
-				jo.put("id", rs.getInt("id"));
-				jo.put("user1ID", rs.getInt("user1ID"));
-				jo.put("user2ID", rs.getInt("user2ID"));
+				jo.put("id", key);
+				jo.put("user1ID", userID1);
+				jo.put("user2ID", userID2);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -487,7 +487,7 @@ public class Persistence {
 			if (rs.next()) {
 				card.put("id", rs.getInt("id"));
 				card.put("name", rs.getString("name"));
-				card.put("image", rs.getString("image"));
+				card.put("image", rs.getString("path"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

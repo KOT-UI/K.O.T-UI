@@ -54,6 +54,7 @@ public class GameResource {
 			JSONArray JSONCardIds = jo.getJSONArray("cardIds");
 			resource.chooseCards(gameId, userId, JSONCardIds);
 		} catch (Exception e) {
+			e.printStackTrace();
 			respJo.put("error", "Failed to update cards!");
 		}
 		return respJo.toString();

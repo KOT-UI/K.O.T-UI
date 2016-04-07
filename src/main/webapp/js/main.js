@@ -121,9 +121,9 @@ $( document ).ready(function() {
 	}
 	function wait()
 	{	
-		PrepareCardsToSend=[];
-		for(i=0;i<chosenCards.lenght;i++){
-			PrepareCardsToSend.push(chosenCards[i].id)
+		var PrepareCardsToSend=[];
+		for(i=0;i<chosenCards.length;i++){
+			PrepareCardsToSend.push(chosenCards[i].id | 0)
 		}
 		console.log(PrepareCardsToSend);
 		
@@ -146,7 +146,7 @@ $( document ).ready(function() {
 		    dataType: 'json',
 		    success: function (data) {
 		    	if (data.error) {
-		    		console.log("Could't send cards to game server.");
+		    		console.log(data.error);
 		    	}
 		    },
 		    contentType: 'application/json; charset=utf-8',
@@ -164,7 +164,7 @@ $( document ).ready(function() {
 			    data: { userId: me.id, gameId: gameId },
 			    dataType: 'json',
 			    success: function (data) {
-			    	if (data.state === "ready") {
+			    	if (data.status === "success") {
 		    			game(data.cards);
 		    			clearInterval(waitCardsHandle);
 		    		}
@@ -211,11 +211,11 @@ $( document ).ready(function() {
 		
 	});
 
-			var userCountText = $("player-count");
 			function updateUserCount() {
 				$.get("webapi/users/count", function(data) {
 				if (!data.error) {
-				userCountText.html(data.value);
+					var playerCount = data.value;
+					$(".player-count").html(playerCount);
 				}
 				});
 			}
@@ -286,7 +286,6 @@ $( document ).ready(function() {
 	}
 	
 	$('body').on('click', '#prepare-screen-card-holder .card', function() {
-	
 		if(chosenCards.length == 9){
 			wait();
 		}else{

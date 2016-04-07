@@ -45,7 +45,15 @@ public class GameService {
 		} else {
 			whichCards = "user2Cards";
 		}
-		JSONArray ja = new JSONArray(game.getString(whichCards));
+		String jsonCards = game.getString(whichCards);
+		JSONArray cards = new JSONArray(jsonCards);
+		JSONArray ja = new JSONArray();
+		if (cards.length() > 0) {
+			for (int i = 0; i < cards.length(); i++) {
+				JSONObject card = Persistence.get().getCardById(cards.getInt(i));
+				ja.put(card);
+			}
+		}
 		return ja;
 	}
 	
@@ -64,9 +72,12 @@ public class GameService {
 		JSONArray add = Persistence.get().getCards(REQUIRED_CARDS);
 		for (int i = cards.length(), len = REQUIRED_CARDS; i < len; ++i) {
 			for (int j = 0; j < add.length(); ++j) {
+				if (cards.length() == REQUIRED_CARDS) {
+					break;
+				}
 				int cardId = add.getJSONObject(j).getInt("id");
 				if (!contains(cards, cardId)) {
-					add.put(cardId);
+					cards.put(cardId);
 				}
 			}
 		}
