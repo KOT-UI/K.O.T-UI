@@ -1,0 +1,45 @@
+{
+    "me":{
+        "points":12,
+        "winner":false,
+        "name":"Ivo",
+        "wrong":[
+            {
+            "id":"1",
+            "name":"plane",
+            "image":"aircraft.jpg"
+            },
+            {
+            "id":"256",
+            "name":"flower",
+            "image":"tulip.jpg"
+            }
+        ]
+    },
+    "you":{
+        "points":19,
+        "winner":true,
+        "name":"Bai ivan",
+        "wrong":[
+            {
+            "id":"12",
+            "name":"stadiom",
+            "image":"stadium.jpg"
+            },
+            {
+            "id":"34",
+            "name":"volleball",
+            "image":"basketball.jpg"
+        },{
+        "id":"12",
+        "name":"stadiom",
+        "image":"stadium.jpg"
+        },
+        {
+        "id":"34",
+        "name":"volleball",
+        "image":"basketball.jpg"
+        }
+        ]
+    }
+}

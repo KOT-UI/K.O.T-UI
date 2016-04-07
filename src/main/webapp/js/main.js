@@ -44,7 +44,7 @@ $( document ).ready(function() {
 				}
 			$('#game-card-container').html(out);
 			displayView('start');
-			timeShow(3,'game');
+			timeShow(60,'game');
 		});
 
 		};
@@ -62,7 +62,7 @@ $( document ).ready(function() {
 				
 			})
 			console.log(dataToSend)
-			
+			summary();
 		}
 	
 		function displayPics(arr,selector) {
@@ -80,8 +80,38 @@ $( document ).ready(function() {
 	    function summary(){
 	    	
 	    		displayView('summary');
+	    		$.get( "js/results.json", function(gameResults) {
+	    			
+	    			$('.result-me .result-points').html('Points: ' + gameResults.me.points ) ;
+	    			if(gameResults.me.winner == true)
+	    			{
+	    				$('.result-me .winner').html('<span style="color:green">Winner</span>') ;
+    				}else{ 
+    					$('.result-me .winner').html('<span style="color:red">Loser</span>') ;
+	    				}
+	    			
+	    			$('.result-me .Random-txt').html(gameResults.me.name ) ;
+	    			for(var i = 0; i<gameResults.me.wrong.length; i++){
+	    			$('.result-me').append('<div class="mistake"><div class="answer" style="background-image:url(data/cards/'  +  gameResults.me.wrong[i].image +'"></div> <p> ' +  gameResults.me.wrong[i].name  + '</p></div>');	
+	    			
+	    		};
+	    			
+		    		$('.result-you .result-points').html('Points: ' + gameResults.you.points ) ;
+		    		if(gameResults.you.winner == true)
+	    			{
+	    				$('.result-you .winner').html('<span style="color:green">Winner</span>') ;
+	    				}else{ 
+	    					$('.result-you .winner').html('<span style="color:red">Loser</span>') ;
+	    				}
+	    			$('.result-you .Random-txt').html(gameResults.you.name ) ;
+	    			for(var i = 0; i<gameResults.you.wrong.length; i++){
+	    			$('.result-you').append('<div class="mistake"><div class="answer" style="background-image:url(data/cards/'  +  gameResults.you.wrong[i].image +'"></div> <p> ' +  gameResults.you.wrong[i].name  + '</p></div>');
+    		};
+	    		});
+
+	    		};
 	    	
-	    }	
+	    
 	        
 	
 	function cards(){
@@ -105,6 +135,9 @@ $( document ).ready(function() {
 		
 		
 	}
+	
+	
+	
 	function timeHide()
 	{
 		$(".time").hide();
@@ -132,6 +165,22 @@ $( document ).ready(function() {
 		$(".login, .cs-loader, .choose-photos, .start, .summary").hide();
 	    $("."+view).show();
 	}
+	$('button.ready').click(function(){
+		alert()
+		gameOver();
+		
+	});
+
+			var userCountText = $("player-count");
+			function updateUserCount() {
+				$.get("webapi/users/count", function(data) {
+				if (!data.error) {
+				userCountText.html(data.value);
+				}
+				});
+			}
+				updateUserCount();
+				setInterval(updateUserCount, 5000);	
 	//---------------Event Listeners--------------------------
 	$('#play').click(function(){
 		me.name="John";
@@ -225,8 +274,6 @@ $( document ).ready(function() {
 	
 	
 });
-
-
 
 
 

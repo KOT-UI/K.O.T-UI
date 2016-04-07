@@ -49,7 +49,7 @@
 <!-- ----------------------------- CHOOSE PHOTOS -------------------------------- -->
 
 <div class="container choose-photos">
-	<h1>Choose images for your oponent </h1>
+	<h1>Choose images for your opponent </h1>
 	<div id="prepare-screen-card-holder">
 		<div class="card"> </div>
  		<div class="card" > </div>
@@ -75,29 +75,19 @@
 <!-- ------------------------------- GAME SUMMARY --------------------------------- -->
 <div class="container summary">
 	
-		<div class="result" >
-		    <div class="result-points">POINTS: <br>60</div>
-			<p class="Random-txt" >Player1</p>
-			<div class="winner green"> WINNER </div>
-			<div class="mistake"> <div class="answer"></div> <p>1</p> </div>
-			<div class="mistake"> <div class="answer"></div> <p>2</p> </div>
-			<div class="mistake"> <div class="answer"></div> <p>3</p> </div>
-			<div class="mistake"> <div class="answer"></div> <p>4</p> </div>
-			<div class="mistake"> <div class="answer"></div> <p>5</p> </div>
-			<div class="mistake"> <div class="answer"></div> <p>6</p> </div>
+		<div class="result result-me" >
+		<div class="result-points"> </div>
+			<p class="Random-txt" ></p>
+			<div class="winner "></div>
+		
 			<div style="clear:both"></div>
 		</div>
 	
-		<div class="results" > 
+		<div class="results result-you" > 
 		   <div class="result-points">POINTS: <br>60</div>
 		    <p class="Random-txt" >Player2</p>
-            <div class="winner red"> LOSER</div>
-			<div class="mistake"> <div class="answer"></div> <p>1</p> </div>
-			<div class="mistake"> <div class="answer"></div> <p>2</p> </div>
-			<div class="mistake"> <div class="answer"></div> <p>3</p> </div>
-			<div class="mistake"> <div class="answer"></div> <p>4</p> </div>
-			<div class="mistake"> <div class="answer"></div> <p>5</p> </div>
-			<div class="mistake"> <div class="answer"></div> <p>6</p> </div>
+            <div class="winner green"></div>
+			
 			<div style="clear:both"></div>
 		</div>
 		<div style="clear:both"></div>
@@ -113,7 +103,7 @@
  <div class="container start">
    <div id="game-card-container"></div>
 
-   <button class="Random"> READY</button>
+   <button class="Random ready"> READY</button>
  </div>
   
 
@@ -122,7 +112,7 @@
 
 <!-- --------------------------------- FOOTER ----------------------------------- -->
   <footer> 
-    	<div>Active players: 2 </div>
+    	<div >Active players: <span class="player-count"></span> </div>
   </footer>
 <!-- --------------------------------- END FOOTER ------------------------------- -->  
 </body>
