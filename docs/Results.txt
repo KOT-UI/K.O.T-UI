@@ -1,0 +1,14 @@
+{
+"gameId":5,
+"userId":6,
+"cards":[
+            {
+            "id":"1",
+            "name":"plane"
+            },
+            {
+            "id":"256",
+            "name":"flower"
+            }
+]
+}
