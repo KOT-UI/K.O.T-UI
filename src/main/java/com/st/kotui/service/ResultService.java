@@ -86,7 +86,7 @@ public class ResultService {
 		    JSONObject card = Persistence.get().getCardById(array[i]); //gets the card by its id
 		    cardName[i] = card.getString("name");
 			imagePath[i] = card.getString("image");
-		    if(!answer[i].isEmpty() && cardName[i].equals(answer[i]))
+		    if(cardName[i].equals(answer[i]))
 		    {
 		    	result++;
 		    } else {

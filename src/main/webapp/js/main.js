@@ -46,12 +46,13 @@ $( document ).ready(function() {
 			displayView('start');
 			timeShow(60,'game');
 		};
-	
+
+		var hasShownResults = false;
 		function gameOver(){
 			cardsToSend=[];
 			$('.game-cards').each(function(){
-				var inputCard = $('input',$(this)).val() || " ";
-				if (inputCard.length > 0) inputCard = " ";
+				var inputCard = $('input',$(this)).val().trim() || " ";
+				if (inputCard.length == 0) inputCard = " ";
 				var inputId = $('.card',$(this)).attr('data-id');
 				cardsToSend.push({
 					"id":inputId,
@@ -59,6 +60,8 @@ $( document ).ready(function() {
 				})
 				
 			});
+
+			displayView('cs-loader');
 			
 			var gameResultHandle = setInterval(function() {
 				$.ajax({
@@ -78,8 +81,11 @@ $( document ).ready(function() {
 				    	if (data.error) {
 				    		console.log(data.error);
 				    	} else {
-							summary(data);
+				    		if (!hasShownResults) {
+				    			summary(data);
+				    		}
 					    	clearInterval(gameResultHandle);
+					    	hasShownResults = true;
 				    	}
 				    },
 				    contentType: 'application/json; charset=utf-8',
@@ -102,7 +108,6 @@ $( document ).ready(function() {
 			}
 	
 	    function summary(gameResults){
-	    	console.log(gameResults);
 	    		displayView('summary');
 	    			
 	    			$('.result-me .result-points').html('Points: ' + gameResults.me.points ) ;
@@ -268,7 +273,11 @@ $( document ).ready(function() {
 		    },
 		    dataType: 'json',
 		    success: function (data) {
-		    	me.id = data.id;
+		    	if (data.error) {
+		    		alert(data.error);
+		    	} else {
+		    		me.id = data.id;
+		    	}
 		    },
 		    contentType: 'application/json; charset=utf-8',
 		    dataType: 'json',
@@ -309,6 +318,19 @@ $( document ).ready(function() {
 		marginFromBottom+=10;
 		$('.scale').append('<div style="bottom:'+marginFromBottom+';background-image:url(data/cards/'+card.image+')"></div>');
 	}
+	
+	$('body').on('click', '#random-btn', function() {
+
+		var id = $(this).attr("data-id");
+		chosenCards.push(CardsYouCanChooseFrom[id]);
+		updateSideCards(CardsYouCanChooseFrom[id])
+		CardsYouCanChooseFrom.splice(id, 1);
+		cards();
+		// '<div style="background-image:url(data/cards/' + arr[i].image +')" class="card" data-id="' + i +'"></div>';
+		if(chosenCards.length == 10){
+			wait();
+		}
+	});
 	
 	$('body').on('click', '#prepare-screen-card-holder .card', function() {
 

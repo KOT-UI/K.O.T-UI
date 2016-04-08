@@ -37,8 +37,9 @@ public class ResultResource {
 		String cardsname = new String();
 		for(int i = 0;i < cards.length();i++) {
 			if(i == (cards.length() - 1)) {
-			cardsname = cardsname + cards.getJSONObject(i).getString("name");
-			}else cardsname = cardsname + cards.getJSONObject(i).getString("name") + ",";
+				cardsname = cardsname + cards.getJSONObject(i).getString("name");
+			}else 
+				cardsname = cardsname + cards.getJSONObject(i).getString("name") + ",";
 		}
 		JSONObject bin = resource.tryCalcResult(gameID, userID, cardsname);
 		return bin.toString();
