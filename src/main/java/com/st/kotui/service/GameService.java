@@ -46,7 +46,7 @@ public class GameService {
 			whichCards = "user2Cards";
 		}
 		String jsonCards = game.getString(whichCards);
-		JSONArray cards = new JSONArray(jsonCards);
+		JSONArray cards = new JSONArray("[" + jsonCards + "]");
 		JSONArray ja = new JSONArray();
 		if (cards.length() > 0) {
 			for (int i = 0; i < cards.length(); i++) {
