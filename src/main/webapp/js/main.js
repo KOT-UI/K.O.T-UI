@@ -42,23 +42,51 @@ $( document ).ready(function() {
 				out += '<div class="game-cards"><div style="background-image:url(data/cards/' + cards[i].image +')" class="card" data-id="' + cards[i].id +'"> </div> <input type="text"/> </div>';
 				}
 			$('#game-card-container').html(out);
+			
 			displayView('start');
+			timeShow(60,'game');
 		};
 	
 		function gameOver(){
-			dataToSend=[];
-			timeHide();
+			cardsToSend=[];
 			$('.game-cards').each(function(){
-				var inputCard = $('input',$(this)).val();
+				var inputCard = $('input',$(this)).val() || " ";
+				if (inputCard.length > 0) inputCard = " ";
 				var inputId = $('.card',$(this)).attr('data-id');
-				dataToSend.push({
+				cardsToSend.push({
 					"id":inputId,
 					"name":inputCard
 				})
 				
-			})
-			console.log(dataToSend)
-			summary();
+			});
+			
+			var gameResultHandle = setInterval(function() {
+				$.ajax({
+				    url: 'webapi/results/compare',
+				    type: 'post',
+				    data: JSON.stringify({
+				    	cards: cardsToSend,
+				    	userId: me.id,
+				    	gameId: gameId,
+				    }),
+				    headers: {
+				        "Content-Type": 'application/json',   //If your header name has spaces or any other char not appropriate
+				        "Accept": 'application/json'  //for object property name, use quoted notation shown in second
+				    },
+				    dataType: 'json',
+				    success: function (data) {
+				    	if (data.error) {
+				    		console.log(data.error);
+				    	} else {
+							summary(data);
+					    	clearInterval(gameResultHandle);
+				    	}
+				    },
+				    contentType: 'application/json; charset=utf-8',
+				    dataType: 'json',
+				});
+			}, 1000);
+			
 		}
 	
 		function displayPics(arr,selector) {
@@ -73,10 +101,9 @@ $( document ).ready(function() {
 		    $(selector).html(out);
 			}
 	
-	    function summary(){
-	    	
+	    function summary(gameResults){
+	    	console.log(gameResults);
 	    		displayView('summary');
-	    		$.get( "js/results.json", function(gameResults) {
 	    			
 	    			$('.result-me .result-points').html('Points: ' + gameResults.me.points ) ;
 	    			if(gameResults.me.winner == true)
@@ -86,7 +113,7 @@ $( document ).ready(function() {
     					$('.result-me .winner').html('<span style="color:red">Loser</span>') ;
 	    				}
 	    			
-	    			$('.result-me .Random-txt').html(gameResults.me.name ) ;
+	    			$('.result-me .player-name').html(gameResults.me.name ) ;
 	    			for(var i = 0; i<gameResults.me.wrong.length; i++){
 	    			$('.result-me').append('<div class="mistake"><div class="answer" style="background-image:url(data/cards/'  +  gameResults.me.wrong[i].image +'"></div> <p> ' +  gameResults.me.wrong[i].name  + '</p></div>');	
 	    			
@@ -99,11 +126,10 @@ $( document ).ready(function() {
 	    				}else{ 
 	    					$('.result-you .winner').html('<span style="color:red">Loser</span>') ;
 	    				}
-	    			$('.result-you .Random-txt').html(gameResults.you.name ) ;
+	    			$('.result-you .player-name').html(gameResults.you.name ) ;
 	    			for(var i = 0; i<gameResults.you.wrong.length; i++){
 	    			$('.result-you').append('<div class="mistake"><div class="answer" style="background-image:url(data/cards/'  +  gameResults.you.wrong[i].image +'"></div> <p> ' +  gameResults.you.wrong[i].name  + '</p></div>');
     		};
-	    		});
 
 	    		};
 	    	
@@ -125,7 +151,6 @@ $( document ).ready(function() {
 		for(i=0;i<chosenCards.length;i++){
 			PrepareCardsToSend.push(chosenCards[i].id | 0)
 		}
-		console.log(PrepareCardsToSend);
 		
 		timeHide();
 		clearInterval(timer);
@@ -146,7 +171,7 @@ $( document ).ready(function() {
 		    dataType: 'json',
 		    success: function (data) {
 		    	if (data.error) {
-		    		console.log(data.error);
+		    		console.error(data.error);
 		    	}
 		    },
 		    contentType: 'application/json; charset=utf-8',
@@ -188,7 +213,7 @@ $( document ).ready(function() {
 		   timeLeft=sec; 
 		   timer = setInterval(function()
 		   {
-		     if(timeLeft !=0){
+		     if(timeLeft > 0){
 		       $('#time-left').html(timeLeft);
 		        timeLeft--;
 		     }
@@ -196,6 +221,7 @@ $( document ).ready(function() {
 		    	 if(task=="preparation")
 		        wait();
 		    	 if(task=="game") gameOver();
+		    	 clearInterval(timer);
 		     }
 		   },1000);		
 		 $(".time").show();
@@ -205,10 +231,10 @@ $( document ).ready(function() {
 		$(".login, .cs-loader, .choose-photos, .start, .summary").hide();
 	    $("."+view).show();
 	}
-	$('button.ready').click(function(){
-		alert()
+	
+	$('body').on('click', 'button#ready-btn', function(){
 		gameOver();
-		
+		clearInterval(timer);
 	});
 
 			function updateUserCount() {
@@ -243,7 +269,6 @@ $( document ).ready(function() {
 		    dataType: 'json',
 		    success: function (data) {
 		    	me.id = data.id;
-		    	console.log(me);
 		    },
 		    contentType: 'application/json; charset=utf-8',
 		    dataType: 'json',
@@ -286,19 +311,15 @@ $( document ).ready(function() {
 	}
 	
 	$('body').on('click', '#prepare-screen-card-holder .card', function() {
-		if(chosenCards.length == 9){
+
+		var id = $(this).attr("data-id");
+		chosenCards.push(CardsYouCanChooseFrom[id]);
+		updateSideCards(CardsYouCanChooseFrom[id])
+		CardsYouCanChooseFrom.splice(id, 1);
+		cards();
+		// '<div style="background-image:url(data/cards/' + arr[i].image +')" class="card" data-id="' + i +'"></div>';
+		if(chosenCards.length == 10){
 			wait();
-		}else{
-			var id = $(this).attr("data-id");
-			console.log(id);
-			chosenCards.push(CardsYouCanChooseFrom[id]);
-			updateSideCards(CardsYouCanChooseFrom[id])
-			console.log('');
-			console.log(CardsYouCanChooseFrom);
-			CardsYouCanChooseFrom.splice(id, 1);
-			console.log(chosenCards);
-			cards();
-			// '<div style="background-image:url(data/cards/' + arr[i].image +')" class="card" data-id="' + i +'"></div>';
 		}
 	});
 	

@@ -41,7 +41,6 @@ public class ResultService {
 		JSONObject joyou = new JSONObject();
 		JSONArray myWrongArray = new JSONArray();
 		JSONArray youWrongArray = new JSONArray();
-		JSONObject myWrongImg = new JSONObject();
 		JSONObject youWrongImg = new JSONObject();
 		String[] answer = answers.split(",");
 
@@ -87,10 +86,11 @@ public class ResultService {
 		    JSONObject card = Persistence.get().getCardById(array[i]); //gets the card by its id
 		    cardName[i] = card.getString("name");
 			imagePath[i] = card.getString("image");
-		    if(cardName[i].equals(answer[i]))
+		    if(!answer[i].isEmpty() && cardName[i].equals(answer[i]))
 		    {
 		    	result++;
 		    } else {
+				JSONObject myWrongImg = new JSONObject();
 		    	myWrongImg.put("id", array[i]);
 		    	myWrongImg.put("name", cardName[i]);
 		    	myWrongImg.put("image", imagePath[i]);
@@ -103,20 +103,49 @@ public class ResultService {
 		       }
 		    }
 		}
-		addResult(userId, result, wrong, isUser1);
+		
+		if (isUser1) {
+			if (game.getInt("user1Result") == -1) {
+				addResult(userId, result, wrong, isUser1);
+			}
+		} else {
+			if (game.getInt("user2Result") == -1) {
+				addResult(userId, result, wrong, isUser1);
+			}
+		}
 		
 		if(otherResult == -1)
 		{
 		jo.put("error", "Other player has not finished");
 		} else {
-			if(result>otherResult) winner=true;
+			if(result>=otherResult) winner=true;
 			else winner = false;
 			jome.put("points", result);
 			jome.put("winner",winner);
 			jome.put("wrong",myWrongArray);
 			joyou.put("points", otherResult);
 			joyou.put("winner",!winner);
-			youWrongArray = Persistence.get().getResult(otherPlayerId, otherPlayerIndex);
+			JSONArray youWrongIds = new JSONArray("[" + otherWrong + "]");
+			for (int i = 0; i < youWrongIds.length(); ++i) {
+				int cardId = youWrongIds.getInt(i);
+				JSONObject wrongCard = Persistence.get().getCardById(cardId);
+				youWrongArray.put(wrongCard);
+			}
+			
+			JSONObject userMe;
+			JSONObject userYou;
+			
+			if (isUser1) {
+				userMe = Persistence.get().getUser(game.getInt("user1ID"));
+				userYou = Persistence.get().getUser(game.getInt("user2ID"));
+			} else {
+				userMe = Persistence.get().getUser(game.getInt("user2ID"));
+				userYou = Persistence.get().getUser(game.getInt("user1ID"));
+			}
+			
+			jome.put("name", userMe.getString("username"));
+			joyou.put("name", userYou.getString("username"));
+			//youWrongArray = Persistence.get().getResult(otherPlayerId, otherPlayerIndex);
 			joyou.put("wrong",youWrongArray);
 			jo.put("me",jome);
 			jo.put("you", joyou);

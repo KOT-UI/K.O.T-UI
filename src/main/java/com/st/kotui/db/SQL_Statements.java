@@ -17,7 +17,7 @@ public class SQL_Statements {
 	public static final String getResource = "SELECT * FROM `kotui`.`testTable` WHERE idtestTable=?";
     public static final String getRndOp = "SELECT * FROM kotui.user WHERE (status = 1 AND username <> '?') ORDER BY rand() LIMIT 1";
     public static final String getRndOpById = "SELECT * FROM kotui.user WHERE (status = 1 AND id <> ?) ORDER BY rand() LIMIT 1";
-	public static final String getCards = "SELECT * FROM `kotui`.`picture` LIMIT ?";
+	public static final String getCards = "SELECT * FROM `kotui`.`picture` ORDER BY rand() LIMIT ?";
 
     public static final String addGame = "INSERT INTO kotui.game (user1ID,user2ID,started,user1Cards,user2Cards,user1Result,user2Result,user1Wrong,user2Wrong) VALUES(?,?,?,'','',-1,-1,'','')";
 

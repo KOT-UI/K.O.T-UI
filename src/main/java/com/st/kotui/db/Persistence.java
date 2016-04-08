@@ -433,7 +433,8 @@ public class Persistence {
 			JSONObject game =  Persistence.get().getGameByUserId(userID); //The game handle
 			prep.toString();
 			prep.setInt(1, index);
-			prep.setInt(2, game.getInt("id"));
+			prep.setInt(2, index);
+			prep.setInt(3, game.getInt("id"));
 			ResultSet rs = prep.executeQuery();
 			JSONArray cards; //keeps the chosen cards' id
 			
